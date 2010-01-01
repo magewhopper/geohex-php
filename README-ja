@@ -1,0 +1,65 @@
+GeoHex PHP
+
+## GeoHex PHP DESCRIPTION
+GeoHexPHP (c) 2009 Mage Whopper
+http://magemap.blogspot.com
+http://twitter.com/Mage_Whopper
+
+## GeoHexクラス
+* GeoHexクラスは、PHPで緯度経度とGeoHex座標を相互変換を行うクラスです。
+* 座標の相互変換、Hexの頂点座標計算、距離計算、距離内のGeoHexを算出する関数を持ちます。
+* 対応しているのは、現在のところ日本付近のみとなります。
+
+
+## GeoHexの概要 http://geogames.net/labs/geohex より部分抜粋
+
+  1. 日本中を隙間の無い六角形ポリゴン（ヘックス）で敷き詰めます。ヘックスに含まれる緯度経度を、ヘックスのサイズ（６０段階）により４〜７桁の短いコードに変換します。
+   2. 緯度経度から直接変換を行うため、ロジック単体で変換が可能です。
+   3. 矩形メッシュと異なり、マス目間の距離がほぼ等しくなります。（緯度により南北方向の長さは多少異なりますが、実用範囲内。）
+   4. 一定の精度幅を持つため、プライバシーの保護に向いています。
+   5. 隣接するヘックスを６方向で表せるため、連続した軌跡をヘックスコード＋[1-6]*nで表すことが可能です。
+
+考案されたのはsa2daさん ( http://geogames.net/ )です。
+現時点(2010.01.01)ではほかに以下の実装が公開されています。
+* perl版 (http://github.com/geohex/geohex-perl)
+* ruby-gem版 (http://github.com/geohex/geohex-gem)
+* AS3版 (http://github.com/geohex/GeoHexAS3)
+
+## Quick Start
+geohex.plをincludeパスの通ったディレクトリ（通常はソースと同じディレクトリ）に配置し、以下のように使用します。
+
+require_once('geohex.php');
+// GeoHexオブジェクト生成
+$ghx = &new GeoHex();
+ 
+// 各計算
+// 緯度経度からGeoHexコードを求める
+print $ghx->latlng2geohex($latitude, $longitude, $level) ."\n";
+ 
+// GeoHexコードから緯度経度に変換
+print $ghx->geohex2latlng($geohex)."\n";
+ 
+// 二つのGeoHexコードから距離を計算
+print $ghx->geohex2distance($geohex1, $geohex2)."\n";
+ 
+// GeoHexコードから、GeoHexの拡頂点の座標を計算
+print_r($ghx->geohex2polygon($geohex));
+ 
+// 指定したGeoHexコードを中心に、指定した距離内にあるGeoHexコードを出力
+print_r($ghx->distance2geohexes($geohex, $level));
+
+*  levelは1〜60の整数、数字が大きいほどサイズが大きな六角形になります。
+* GeoHexコードは4〜7桁の数字+アルファベットのコード 
+
+## ライセンス
+コードのライセンスは元にしたperl版(http://svn.coderepos.org/share/lang/perl/Geo-Hex/trunk/) に従い、
+GPL (version2.0)とします。ただし、考案者のsa2daさんは
+「GeoHexの仕様ならびに関連するプログラム、サービスはクリエイティブ・コモンズのライセンス形式に則り、
+以下のクレジットをサイト内に掲載していただくことにより自由に「改変」「再配布」「商用利用」が可能です。
+GeoHex by sa2da is licensed under a Creative Commons 表示-継承 2.1 日本 License.  」
+と表明されており、CC-by-saとのデュアルライセンスとします。（変更の可能性あり）
+
+2010.01.01 Mage Whopper
+
+
+
